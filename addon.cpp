@@ -1,5 +1,5 @@
 #include <node.h>
-#include "checkPrivilege.cpp"
+#include <string>
 
 using namespace v8;
 
@@ -8,7 +8,7 @@ extern "C" {
         Isolate* isolate = Isolate::GetCurrent();
         Local<Context> context = isolate->GetContext();
         Local<String> username = Local<String>::Cast(args[0]);
-        Local<String> result = Local<String>::Cast(checkPrivilege(std::string(username->ToString())));
+        Local<String> result = String::NewFromUtf8(isolate, checkPrivilege(std::string(username->Utf8Value())).c_str()).ToLocalChecked();
         args.GetReturnValue().Set(result);
     }
 }

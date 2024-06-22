@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const addon = require('./build/Release/addon');
 const app = express();
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -10,14 +12,14 @@ app.get('/', (req, res) => {
 
 app.post('/check', (req, res) => {
     const username = req.body.username;
-    const result = checkPrivilege(username);
+    const result = addon.checkPrivilege(username);
     res.send(`
         <html>
             <head>
                 <title>Privilege Check</title>
             </head>
             <body>
-                <h1>${username} has privilege ${result}</h1>
+                <h1>User ${username} has privilege ${result}</h1>
                 <button onclick="window.location.href='/'">Back</button>
             </body>
         </html>
